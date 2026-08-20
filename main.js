@@ -16,7 +16,6 @@ function startFlask() {
     env: { ...process.env, FLASK_ENV: 'development' }
   });
 
-  flaskProcess = spawn(exePath, args);
   flaskProcess.stdout.on('data', (data) => console.log(`Flask: ${data}`));
   flaskProcess.stderr.on('data', (data) => console.error(`Flask error: ${data}`));
 }

@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, g
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
@@ -10,6 +10,7 @@ from helpers import apology, login_required, usd
 
 # Configure application
 app = Flask(__name__)
+DATABASE = "goal_tracker.db"
 
 # Custom filter
 app.jinja_env.filters["usd"] = usd
@@ -20,8 +21,17 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure my database
-conn = sqlite3.connect("goal_tracker.db")
-conn.row_factory = sqlite3.Row  # lets you access columns by name, like CS50's db did
+def get_db():
+    if "db" not in g:
+        g.db = sqlite3.connect(DATABASE)
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+@app.teardown_appcontext
+def close_db(exception):
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
 
 @app.after_request
 def after_request(response):
@@ -35,9 +45,8 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    """Show portfolio of stocks"""
 
-    return render_template("index.html")
+    return render_template("index[temp].html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -58,9 +67,10 @@ def login():
             return apology("must provide password", 403)
 
         # Query database for username
-        rows = conn.execute(
-            "SELECT * FROM users WHERE username = ?", request.form.get("username")
-        )
+        db = get_db()
+        rows = db.execute(
+            "SELECT * FROM users WHERE username = ?", (request.form.get("username"),) # NEED THIS FOR THIS TO BE A ONE ITEM TUPLE, also for all future usecases values must be in tuples
+        ).fetchall()  # in here db.execute pulls everything to a cursor, similar to a pointer in c, so fetchall() extracts all the info that the cursor is pointing to
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(
@@ -78,6 +88,39 @@ def login():
     else:
         return render_template("login.html")
 
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user"""
+    if request.method == "POST":
+        # Ensure a username was submitted
+        if not request.form.get("username"):  # ensures someone can't submit empty user
+            return apology("must provide a username")
+
+        # Ensure a password was submitted
+        if not request.form.get("password"):
+            return apology("must provide a password")
+
+        # Ensure password and confirmation password match
+        if request.form.get("password") != request.form.get("confirmation"):
+            return apology("passwords do not match")
+
+        # Hash the password
+        hash = generate_password_hash(request.form.get("password"))
+
+        # Ensure username is not a duplicate
+        try:
+            db = get_db()
+            db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
+                       (request.form.get("username"), hash))
+        except ValueError:  # good practice to define the error so that it is easier to debug
+            return apology("username already taken")
+
+        return redirect("/")
+    else:
+        # renders my register template if user did not click "register" button
+        return render_template("register.html")
+    
 
 # remove this when shipping
 if __name__ == '__main__':
