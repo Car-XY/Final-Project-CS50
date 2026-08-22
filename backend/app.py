@@ -3,17 +3,21 @@ import sqlite3
 
 from flask import Flask, flash, redirect, render_template, request, session, g
 from flask_session import Session
+from flask_wtf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from helpers import apology, login_required, usd
+from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
-DATABASE = "goal_tracker.db"
+app.config["SECRET_KEY"] = "Anchor-Cary-Hehehaw"  # move to env var later
 
-# Custom filter
-app.jinja_env.filters["usd"] = usd
+csrf = CSRFProtect(app)
+
+# makes sure my database is always the same one no matter where I launch app.py from
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, "goal_tracker.db")
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -41,30 +45,34 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+# automaticcally makes the user username available to jinja so I don't have to pass it in everytime
+@app.context_processor
+def inject_user():
+    return dict(username=session.get("username"))
 
 @app.route("/")
 @login_required
 def index():
-
-    return render_template("index[temp].html")
-
+    return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
 
-    # Forget any user_id
-    session.clear()
-
     # User reached route via POST (as by submitting a form via POST)
+    
     if request.method == "POST":
+
+        # Forget any user_id
+        session.clear()
+
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password")
 
         # Query database for username
         db = get_db()
@@ -76,10 +84,13 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0]["hash"], request.form.get("password")
         ):
-            return apology("invalid username and/or password", 403)
+            return apology("invalid username and/or password")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
+
+        # Remember username
+        session["username"] = request.form.get("username")
 
         # Redirect user to home page
         return redirect("/")
@@ -113,7 +124,8 @@ def register():
             db = get_db()
             db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
                        (request.form.get("username"), hash))
-        except ValueError:  # good practice to define the error so that it is easier to debug
+            db.commit() # as I am not using cs50 training wheels anymore, anytime I need to commit something to server files I need to do commit()
+        except sqlite3.IntegrityError:  # good practice to define the error so that it is easier to debug
             return apology("username already taken")
 
         return redirect("/")

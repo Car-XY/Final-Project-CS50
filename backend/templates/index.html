@@ -1,8 +1,332 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Hi
+    Homepage
 {% endblock %}
 
 {% block main %}
+<!-- Photo -->
+<div class="col-span-1 md:col-span-5">
+<img
+    src="static/Dashboard WIP.png"
+    alt="Photo"
+    class="rounded-xl object-cover w-full aspect-square"
+/>
+</div>
+<!-- END Photo -->
+
+<!-- Intro -->
+<div
+class="relative col-span-1 flex flex-col overflow-hidden rounded-xl bg-zinc-100 p-12 md:col-span-7 dark:bg-zinc-900"
+>
+<div
+    aria-hidden="true"
+    class="absolute -top-20 -left-20 size-48 rounded-full bg-blue-500 blur-2xl"
+></div>
+<div
+    aria-hidden="true"
+    class="absolute -top-10 -right-10 size-64 rounded-full bg-blue-300 blur-3xl"
+></div>
+<div
+    aria-hidden="true"
+    class="absolute inset-0 bg-blue-100/50 backdrop-blur-md dark:bg-blue-900/75"
+></div>
+<div class="relative mt-auto">
+    <h1 class="text-4xl font-medium text-black dark:text-white">
+    Hi, I'm Cary!
+    </h1>
+    <h2 class="mt-3 leading-relaxed text-zinc-900 dark:text-zinc-200">
+    This is where the AI assistant will give you daily recaps of your progress!
+    
+    <p class="text-sm">
+    (shameless plug) but, if anyone's on a UofT design team please hit me up! I would love to gain more experience with hardware as well.
+    </p>
+    </h2>
+</div>
+</div>
+<!-- END Intro -->
+
+<!-- Projects -->
+<a
+id="projects"
+href="javascript:void(0)"
+class="group relative col-span-1 overflow-hidden rounded-xl bg-zinc-100 p-6 hover:bg-zinc-200/75 active:bg-zinc-200 md:col-span-4 dark:bg-zinc-900 dark:hover:bg-zinc-800/75 dark:active:bg-zinc-800"
+>
+<div
+    class="absolute top-6 right-6 scale-0 opacity-0 transition duration-75 ease-out group-hover:scale-100 group-hover:opacity-100"
+    aria-hidden="true"
+>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="hi-solid hi-arrow-small-right inline-block size-6"
+    >
+    <path
+        fill-rule="evenodd"
+        d="M3.75 12a.75.75 0 0 1 .75-.75h13.19l-5.47-5.47a.75.75 0 0 1 1.06-1.06l6.75 6.75a.75.75 0 0 1 0 1.06l-6.75 6.75a.75.75 0 1 1-1.06-1.06l5.47-5.47H4.5a.75.75 0 0 1-.75-.75Z"
+        clip-rule="evenodd"
+    />
+    </svg>
+</div>
+<h3 class="text-lg font-medium text-zinc-950 dark:text-zinc-50">
+    Reflection
+</h3>
+<h4 class="text-sm text-zinc-600 dark:text-zinc-400">This week</h4>
+<div
+    class="mt-10 transition duration-150 ease-out group-hover:scale-105"
+>
+    <!-- <img
+    src="assets/project1.png"
+    alt="Project 1"
+    class="rounded-xl object-contain w-full aspect-square"
+    /> -->
+</div>
+</a>
+<a
+href="javascript:void(0)"
+class="group relative col-span-1 overflow-hidden rounded-xl bg-zinc-100 p-6 hover:bg-zinc-200/75 active:bg-zinc-200 md:col-span-4 dark:bg-zinc-900 dark:hover:bg-zinc-800/75 dark:active:bg-zinc-800"
+>
+<div
+    class="absolute top-6 right-6 scale-0 opacity-0 transition duration-75 ease-out group-hover:scale-100 group-hover:opacity-100"
+    aria-hidden="true"
+>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="hi-solid hi-arrow-small-right inline-block size-6"
+    >
+    <path
+        fill-rule="evenodd"
+        d="M3.75 12a.75.75 0 0 1 .75-.75h13.19l-5.47-5.47a.75.75 0 0 1 1.06-1.06l6.75 6.75a.75.75 0 0 1 0 1.06l-6.75 6.75a.75.75 0 1 1-1.06-1.06l5.47-5.47H4.5a.75.75 0 0 1-.75-.75Z"
+        clip-rule="evenodd"
+    />
+    </svg>
+</div>
+<h3 class="text-lg font-medium text-zinc-950 dark:text-zinc-50">
+    Add/Edit Habits
+</h3>
+<div
+    class="mt-10 transition duration-150 ease-out group-hover:scale-105"
+>
+    <!-- <img
+    src="assets/project2.png"
+    alt="Project 2"
+    class="rounded-xl object-contain w-full aspect-square"
+    /> -->
+</div>
+</a>
+<a
+href="javascript:void(0)"
+class="group relative col-span-1 overflow-hidden rounded-xl bg-zinc-100 p-6 hover:bg-zinc-200/75 active:bg-zinc-200 md:col-span-4 dark:bg-zinc-900 dark:hover:bg-zinc-800/75 dark:active:bg-zinc-800"
+>
+<div
+    class="absolute top-6 right-6 scale-0 opacity-0 transition duration-75 ease-out group-hover:scale-100 group-hover:opacity-100"
+    aria-hidden="true"
+>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="hi-solid hi-arrow-small-right inline-block size-6"
+    >
+    <path
+        fill-rule="evenodd"
+        d="M3.75 12a.75.75 0 0 1 .75-.75h13.19l-5.47-5.47a.75.75 0 0 1 1.06-1.06l6.75 6.75a.75.75 0 0 1 0 1.06l-6.75 6.75a.75.75 0 1 1-1.06-1.06l5.47-5.47H4.5a.75.75 0 0 1-.75-.75Z"
+        clip-rule="evenodd"
+    />
+    </svg>
+</div>
+<h3 class="text-lg font-medium text-zinc-950 dark:text-zinc-50">
+    Goal timeline
+</h3>
+<div
+    class="mt-10 transition duration-150 ease-out group-hover:scale-105"
+>
+    <!-- <img
+    src="assets/project3.png"
+    alt="Project 3"
+    class="rounded-xl object-contain w-full aspect-square"
+    /> -->
+</div>
+</a>
+<a
+href="javascript:void(0)"
+class="group relative col-span-1 overflow-hidden rounded-xl bg-zinc-100 p-6 hover:bg-zinc-200/75 active:bg-zinc-200 md:col-span-4 dark:bg-zinc-900 dark:hover:bg-zinc-800/75 dark:active:bg-zinc-800"
+>
+<div
+    class="absolute top-6 right-6 scale-0 opacity-0 transition duration-75 ease-out group-hover:scale-100 group-hover:opacity-100"
+    aria-hidden="true"
+>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="hi-solid hi-arrow-small-right inline-block size-6"
+    >
+    <path
+        fill-rule="evenodd"
+        d="M3.75 12a.75.75 0 0 1 .75-.75h13.19l-5.47-5.47a.75.75 0 0 1 1.06-1.06l6.75 6.75a.75.75 0 0 1 0 1.06l-6.75 6.75a.75.75 0 1 1-1.06-1.06l5.47-5.47H4.5a.75.75 0 0 1-.75-.75Z"
+        clip-rule="evenodd"
+    />
+    </svg>
+</div>
+<h3 class="text-lg font-medium text-zinc-950 dark:text-zinc-50">
+    Brand identity
+</h3>
+<h4 class="text-sm text-zinc-600 dark:text-zinc-400">Last month</h4>
+<div
+    class="mt-10 transition duration-150 ease-out group-hover:scale-105"
+>
+    <img
+    src="assets/project4.png"
+    alt="Project 4"
+    class="rounded-xl object-contain w-full aspect-square"
+    />
+</div>
+</a>
+<a
+href="javascript:void(0)"
+class="group relative col-span-1 overflow-hidden rounded-xl bg-zinc-100 p-6 hover:bg-zinc-200/75 active:bg-zinc-200 md:col-span-4 dark:bg-zinc-900 dark:hover:bg-zinc-800/75 dark:active:bg-zinc-800"
+>
+<div
+    class="absolute top-6 right-6 scale-0 opacity-0 transition duration-75 ease-out group-hover:scale-100 group-hover:opacity-100"
+    aria-hidden="true"
+>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="hi-solid hi-arrow-small-right inline-block size-6"
+    >
+    <path
+        fill-rule="evenodd"
+        d="M3.75 12a.75.75 0 0 1 .75-.75h13.19l-5.47-5.47a.75.75 0 0 1 1.06-1.06l6.75 6.75a.75.75 0 0 1 0 1.06l-6.75 6.75a.75.75 0 1 1-1.06-1.06l5.47-5.47H4.5a.75.75 0 0 1-.75-.75Z"
+        clip-rule="evenodd"
+    />
+    </svg>
+</div>
+<h3 class="text-lg font-medium text-zinc-950 dark:text-zinc-50">
+    Illustration Builder
+</h3>
+<h4 class="text-sm text-zinc-600 dark:text-zinc-400">Last month</h4>
+<div
+    class="mt-10 transition duration-150 ease-out group-hover:scale-105"
+>
+    <img
+    src="assets/project5.png"
+    alt="Project 5"
+    class="rounded-xl object-contain w-full aspect-square"
+    />
+</div>
+</a>
+<a
+href="javascript:void(0)"
+class="group relative col-span-1 overflow-hidden rounded-xl bg-zinc-100 p-6 hover:bg-zinc-200/75 active:bg-zinc-200 md:col-span-4 dark:bg-zinc-900 dark:hover:bg-zinc-800/75 dark:active:bg-zinc-800"
+>
+<div
+    class="absolute top-6 right-6 scale-0 opacity-0 transition duration-75 ease-out group-hover:scale-100 group-hover:opacity-100"
+    aria-hidden="true"
+>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="hi-solid hi-arrow-small-right inline-block size-6"
+    >
+    <path
+        fill-rule="evenodd"
+        d="M3.75 12a.75.75 0 0 1 .75-.75h13.19l-5.47-5.47a.75.75 0 0 1 1.06-1.06l6.75 6.75a.75.75 0 0 1 0 1.06l-6.75 6.75a.75.75 0 1 1-1.06-1.06l5.47-5.47H4.5a.75.75 0 0 1-.75-.75Z"
+        clip-rule="evenodd"
+    />
+    </svg>
+</div>
+<h3 class="text-lg font-medium text-zinc-950 dark:text-zinc-50">
+    Logo design
+</h3>
+<h4 class="text-sm text-zinc-600 dark:text-zinc-400">Last month</h4>
+<div
+    class="mt-10 transition duration-150 ease-out group-hover:scale-105"
+>
+    <img
+    src="assets/project6.png"
+    alt="Project 6"
+    class="rounded-xl object-contain w-full aspect-square"
+    />
+</div>
+</a>
+<!-- END Projects -->
+
+<!-- Contact -->
+<div
+id="contact"
+class="relative col-span-1 flex flex-col overflow-hidden rounded-xl bg-zinc-100 px-12 py-20 md:col-span-12 dark:bg-zinc-900"
+>
+<div
+    aria-hidden="true"
+    class="absolute -top-20 -left-20 size-48 rounded-full bg-pink-300 blur-2xl"
+></div>
+<div
+    aria-hidden="true"
+    class="absolute -right-48 -bottom-48 size-96 rounded-full bg-indigo-200 blur-2xl dark:bg-indigo-400/50"
+></div>
+<div
+    aria-hidden="true"
+    class="absolute -top-48 -right-48 size-96 rounded-full bg-purple-200 blur-3xl dark:bg-purple-400/50"
+></div>
+<div
+    aria-hidden="true"
+    class="absolute inset-0 bg-purple-100/50 backdrop-blur-md dark:bg-purple-900/75"
+></div>
+<div class="relative mx-auto mt-auto max-w-md">
+    <h2 class="text-4xl font-medium text-black dark:text-white">
+    Get in touch
+    </h2>
+    <h3 class="mt-3 leading-relaxed text-zinc-900 dark:text-zinc-200">
+    Looking for a creative partner for your next project? I'm
+    currently available for freelance work and would love to hear
+    about your ideas. Whether you need branding, web design, or
+    print materials, let's collaborate to bring your vision to life.
+    </h3>
+    <form onsubmit="return false;" class="mt-10 w-full space-y-6">
+    <div class="space-y-2">
+        <label for="name" class="inline-block text-sm font-medium">Name</label>
+        <input
+        type="text"
+        id="name"
+        name="name"
+        class="block w-full rounded-lg bg-white border border-white px-5 py-3 leading-6 placeholder-zinc-500 focus:outline-hidden focus:border-purple-500 focus:ring-3 focus:ring-purple-500/50 focus:outline-hidden dark:border-purple-950 dark:bg-purple-950 dark:placeholder-zinc-400 dark:focus:border-purple-500"
+        />
+    </div>
+    <div class="space-y-2">
+        <label for="email" class="inline-block text-sm font-medium">Email</label>
+        <input
+        type="email"
+        id="email"
+        name="email"
+        class="block w-full rounded-lg bg-white border border-white px-5 py-3 leading-6 placeholder-zinc-500 focus:outline-hidden focus:border-purple-500 focus:ring-3 focus:ring-purple-500/50 focus:outline-hidden dark:border-purple-950 dark:bg-purple-950 dark:placeholder-zinc-400 dark:focus:border-purple-500"
+        />
+    </div>
+    <div class="space-y-2">
+        <label for="message" class="inline-block text-sm font-medium"
+        >Message</label
+        >
+        <textarea
+        id="message"
+        name="message"
+        rows="6"
+        class="block w-full rounded-lg bg-white border border-white px-5 py-3 leading-6 placeholder-zinc-500 focus:outline-hidden focus:border-purple-500 focus:ring-3 focus:ring-purple-500/50 focus:outline-hidden dark:border-purple-950 dark:bg-purple-950 dark:placeholder-zinc-400 dark:focus:border-purple-500"
+        ></textarea>
+    </div>
+    <button
+        type="submit"
+        class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-purple-700 bg-purple-700 px-5 py-3 text-sm leading-6 font-semibold text-white hover:border-purple-600 hover:bg-purple-600 hover:text-white focus:ring-3 focus:ring-purple-400/50 active:border-purple-700 active:bg-purple-700 lg:w-auto dark:focus:ring-purple-400/90"
+    >
+        <span>Send Message</span>
+    </button>
+    </form>
+</div>
+</div>
+<!-- END Contact -->
 {% endblock %}

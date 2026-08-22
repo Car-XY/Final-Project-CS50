@@ -1,32 +1,15 @@
 import requests
 
-from flask import redirect, render_template, session
+from flask import flash, redirect, request, url_for, session
 from functools import wraps
 
 
 def apology(message, code=400):
-    """Render message as an apology to user."""
+    """Flash an error message and redirect the user back to where they came from"""
 
-    def escape(s):
-        """
-        Escape special characters.
-
-        https://github.com/jacebrowning/memegen#special-characters
-        """
-        # for old, new in [
-        #     ("-", "--"),
-        #     (" ", "-"),
-        #     ("_", "__"),
-        #     ("?", "~q"),
-        #     ("%", "~p"),
-        #     ("#", "~h"),
-        #     ("/", "~s"),
-        #     ('"', "''"),
-        # ]:
-        #     s = s.replace(old, new)
-        return s
-    
-    return render_template("apology.html", top=code, bottom=escape(message)), code
+    flash(message, "error")
+    # url_for checks for the route function name, in which case the homepage is index
+    return redirect(request.referrer or url_for("index"))
 
 
 def login_required(f):
@@ -44,7 +27,3 @@ def login_required(f):
 
     return decorated_function
 
-
-def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"
