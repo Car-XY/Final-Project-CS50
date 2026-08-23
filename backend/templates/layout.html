@@ -73,9 +73,9 @@
             <a
               class="text-4xl font-bold hover:text-purple-600 active:opacity-75 dark:hover:text-purple-400"
             >
-            {% if session["user_id"] %}
+            {% if session["user_id"] and greeting %}
                 Welcome {{username}}!
-            {% else %}
+            {% elif greeting %}
                 Welcome to Anchor
             {% endif %}
             </a>

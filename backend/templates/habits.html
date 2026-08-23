@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Manage Habits
+{% endblock %}
+
+{% block main %}
+<div class="col-span-12">
+
+  <!-- Page Header Row -->
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+      Manage Habits
+    </h1>
+
+    <div class="flex items-center gap-3">
+      
+      <a
+        href="/habits/edit"
+        class="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 active:opacity-80 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        Edit Habits
+      >
+      </a>
+      
+      <a
+        href="/habits/add"
+        class="btn-primary"
+      >
+        + Add Habit
+      </a>
+    </div>
+  </div>
+  <!-- END Page Header Row -->
+
+  <!-- Habit List -->
+  <div class="rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+    {% if habits %}
+      <ul class="divide-y divide-zinc-200 dark:divide-zinc-800">
+        {% for habit in habits %}
+        <li class="flex items-center justify-between px-6 py-4">
+          <div>
+            <p class="font-medium text-zinc-800 dark:text-zinc-100">{{ habit.name }}</p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ habit.frequency }}</p>
+          </div>
+          <span class="text-sm text-zinc-400 dark:text-zinc-500">{{ habit.streak }} day streak</span>
+        </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <!-- Empty State -->
+      <div class="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
+        <p class="text-zinc-600 dark:text-zinc-300">You haven't added any habits yet.</p>
+    
+        <a
+          href="/habits/add"
+          class="btn-primary"
+        >
+          + Add Your First Habit
+        </a>
+      </div>
+      <!-- END Empty State -->
+    {% endif %}
+  </div>
+  <!-- END Habit List -->
+
+</div>
+{% endblock %}

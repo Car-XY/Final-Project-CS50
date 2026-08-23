@@ -50,10 +50,19 @@ def after_request(response):
 def inject_user():
     return dict(username=session.get("username"))
 
+
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    return render_template("index.html", greeting=True)
+
+
+@app.route("/habits")
+@login_required
+def habits():
+    habits = ()
+    return render_template ("habits.html", habits=habits)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -97,7 +106,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("login.html")
+        return render_template("login.html", greeting=True)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -131,7 +140,7 @@ def register():
         return redirect("/")
     else:
         # renders my register template if user did not click "register" button
-        return render_template("register.html")
+        return render_template("register.html", greeting=True)
     
 
 # remove this when shipping

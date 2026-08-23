@@ -44,3 +44,26 @@ nav .navbar-brand .green
 @keyframes fadeOut {
   to { opacity: 0; visibility: hidden; }
 }
+
+.btn-primary {
+  border-radius: 0.5rem;        /* rounded-lg */
+  background-color: #9333ea;    /* bg-purple-600 */
+  padding: 0.5rem 1rem;         /* py-2 px-4 */
+  font-size: 0.875rem;          /* text-sm */
+  line-height: 1.25rem;         /* text-sm's paired line-height */
+  font-weight: 500;             /* font-medium */
+  color: #ffffff;               /* text-white */
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+    filter, backdrop-filter;    /* transition */
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.btn-primary:hover {
+  background-color: #7e22ce;    /* hover:bg-purple-700 */
+}
+
+.btn-primary:active {
+  opacity:
+}
