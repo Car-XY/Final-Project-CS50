@@ -9,7 +9,7 @@ Manage Habits
 
   <!-- Page Header Row -->
   <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-2xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+    <h1 class="text-2xl font-semibold tracking-tight text-text dark:text-text-dark">
       Manage Habits
     </h1>
 
@@ -17,14 +17,14 @@ Manage Habits
       
       <a
         href="/habits/edit"
-        class="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 active:opacity-80 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 active:opacity-80 dark:border-border-dark dark:text-zinc-200 dark:hover:bg-zinc-800"
         Edit Habits
       >
       </a>
       
       <a
         href="/habits/add"
-        class="btn-primary"
+        class="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80"
       >
         + Add Habit
       </a>
@@ -33,27 +33,27 @@ Manage Habits
   <!-- END Page Header Row -->
 
   <!-- Habit List -->
-  <div class="rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+  <div class="rounded-2xl border border-zinc-200 bg-surface dark:border-zinc-800 dark:bg-surface-dark">
     {% if habits %}
       <ul class="divide-y divide-zinc-200 dark:divide-zinc-800">
         {% for habit in habits %}
         <li class="flex items-center justify-between px-6 py-4">
           <div>
-            <p class="font-medium text-zinc-800 dark:text-zinc-100">{{ habit.name }}</p>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ habit.frequency }}</p>
+            <p class="font-medium text-text dark:text-text-dark">{{ habit.name }}</p>
+            <p class="text-sm text-zinc-500 dark:text-text-translucent">{{ habit.frequency }}</p>
           </div>
-          <span class="text-sm text-zinc-400 dark:text-zinc-500">{{ habit.streak }} day streak</span>
+          <span class="text-sm text-text-translucent dark:text-zinc-500">{{ habit.streak }} day streak</span>
         </li>
         {% endfor %}
       </ul>
     {% else %}
       <!-- Empty State -->
       <div class="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
-        <p class="text-zinc-600 dark:text-zinc-300">You haven't added any habits yet.</p>
+        <p class="text-text-muted dark:text-zinc-300">You haven't added any habits yet.</p>
     
         <a
           href="/habits/add"
-          class="btn-primary"
+          class="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80"
         >
           + Add Your First Habit
         </a>

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block main %}
+
+<form action="/logout" class="flex flex-col gap-4">
+    <button
+    type="submit"
+    class="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80">
+        Log out
+    </button>
+</form>
+
+{% endblock %}

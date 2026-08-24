@@ -109,6 +109,13 @@ def login():
         return render_template("login.html", greeting=True)
 
 
+@app.route("/logout")
+@login_required
+def logout():
+    session.clear()
+    return render_template("login.html", greeting=True)
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -141,6 +148,12 @@ def register():
     else:
         # renders my register template if user did not click "register" button
         return render_template("register.html", greeting=True)
+
+
+@app.route("/settings")
+@login_required
+def settings():
+    return render_template("settings.html")
     
 
 # remove this when shipping

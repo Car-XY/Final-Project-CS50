@@ -7,36 +7,16 @@
 
     <title>Anchor {% block title %}{% endblock %}</title>
 
-    <!-- Inter web font from bunny.net (GDPR compliant) -->
-    <link rel="preconnect" href="https://fonts.bunny.net" />
-    <link
-      href="https://fonts.bunny.net/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Load my css stylesheet --> 
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}" />
 
-    <!-- Load my css stylesheet -->
-     <link href="/static/styles.css" rel="stylesheet">
-     
-    <!-- Tailwind CSS Play CDN (mostly for development/testing purposes) MUST REMOVE THIS LATER AND INSTALL TAILWIND, ALPINE JS AND FONT CSS PROPERLY -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
-    <!-- Tailwind CSS v4 Configuration -->
-    <style type="text/tailwindcss">
-      /* Class based dark mode */
-      @custom-variant dark (&:where(.dark, .dark *));
-
-      /* Theme configuration */
-      @theme {
-        /* Fonts */
-        --default-font-family: "Inter";
-      }
-    </style>
+      <!-- /* Class based dark mode */
+      @custom-variant dark (&:where(.dark, .dark *)); -->
 
     <!-- Alpine.js -->
     <script
-      defer
-      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
+      defer src="{{ url_for('static', filename='js/alpine.min.js') }}">
+    </script>
 
     <!-- Alpine.js (x-cloak - https://alpinejs.dev/directives/cloak) -->
     <style>
@@ -56,7 +36,7 @@
           document.body.parentNode.classList.toggle('dark', this.darkMode);
         }
       }"
-      class="flex min-h-dvh min-w-80 flex-col bg-white text-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+      class="flex min-h-dvh min-w-80 flex-col bg-surface text-text dark:bg-zinc-950 dark:text-text-dark"
     >
       <!-- Page Content -->
       <main
@@ -71,7 +51,7 @@
           <div class="flex items-center gap-2">
             <!-- Logo -->
             <a
-              class="text-4xl font-bold hover:text-purple-600 active:opacity-75 dark:hover:text-purple-400"
+              class="text-4xl font-bold hover:text-brand active:opacity-75 dark:hover:text-brand-light"
             >
             {% if session["user_id"] and greeting %}
                 Welcome {{username}}!
@@ -86,7 +66,7 @@
               x-on:click="toggleDarkMode()"
               type="button"
               aria-label="Toggle dark mode"
-              class="relative inline-flex size-9 items-center justify-center text-zinc-600 hover:opacity-75 dark:text-zinc-400"
+              class="relative inline-flex size-9 items-center justify-center text-text-muted hover:opacity-75 dark:text-text-translucent"
             >
               <div
                 x-cloak
@@ -148,14 +128,14 @@
             <nav class="flex items-center gap-6">
             {% if session["user_id"] %}
               <a
-                href="#projects"
-                class="text-sm font-medium decoration-purple-600 decoration-2 underline-offset-8 hover:text-black hover:underline dark:decoration-purple-400 dark:hover:text-white"
+                href="/"
+                class="text-sm font-medium decoration-brand decoration-2 underline-offset-8 hover:text-black hover:underline dark:decoration-brand-light dark:hover:text-white"
               >
-                Profile
+                Home
               </a>
               <a
-                href="#contact"
-                class="text-sm font-medium decoration-purple-600 decoration-2 underline-offset-8 hover:text-black hover:underline dark:decoration-purple-400 dark:hover:text-white"
+                href="/settings"
+                class="text-sm font-medium decoration-brand decoration-2 underline-offset-8 hover:text-black hover:underline dark:decoration-brand-light dark:hover:text-white"
               >
                 Settings
               </a>
@@ -179,7 +159,7 @@
               <a
                   href="https://linkedin.com/in/youraccount"
                   aria-label="LinkedIn"
-                  class="text-zinc-400 hover:text-[#0a66c2] dark:hover:text-[#0a66c2]"
+                  class="text-text-translucent hover:text-[#0a66c2] dark:hover:text-[#0a66c2]"
               >
                 <svg
                   class="inline-block size-5"
@@ -195,7 +175,7 @@
               </a>
               <a
                 href="javascript:void(0)"
-                class="text-zinc-400 hover:text-[#ea4c89]"
+                class="text-text-translucent hover:text-[#ea4c89]"
               >
                 <svg
                   class="icon-instagram inline-block size-5"
@@ -210,7 +190,7 @@
               </a>
               <a
                 href="javascript:void(0)"
-                class="text-zinc-400 hover:text-[#333] dark:hover:text-zinc-50"
+                class="text-text-translucent hover:text-[#333] dark:hover:text-zinc-50"
               >
                 <svg
                   class="icon-github inline-block size-5"
@@ -225,7 +205,7 @@
               </a>
               <a
                 href="javascript:void(0)"
-                class="text-zinc-400 hover:text-[#405de6]"
+                class="text-text-translucent hover:text-[#405de6]"
               >
                 <svg
                   class="icon-dribbble inline-block size-5"
@@ -239,7 +219,7 @@
                 </svg>
               </a>
             </nav>
-            <div class="text-zinc-500 dark:text-zinc-400/80">
+            <div class="text-zinc-500 dark:text-text-translucent/80">
               <span class="font-medium">Anchor</span> ©
               <span x-text="new Date().getFullYear()"></span>
             </div>

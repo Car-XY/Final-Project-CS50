@@ -6,15 +6,16 @@
 
 {% block main %}
 <div class="col-span-12 flex flex-1 items-center justify-center">
-  <div class="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-    <h1 class="mb-6 text-center text-2xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-      Log in
+  <div class="w-full max-w-sm rounded-2xl border border-border bg-surface p-8 shadow-sm dark:border-border-dark dark:bg-surface-dark">
+    <h1 class="mb-6 text-center text-2xl font-semibold tracking-tight text-text dark:text-text-dark">
+      Log In
     </h1>
 
     <form action="/login" method="post" class="flex flex-col gap-4">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
       <div>
-        <label for="username" class="mb-1 block text-sm font-medium text-zinc-600 dark:text-zinc-300">
+        <label for="username" class="mb-1 block text-sm font-medium text-text-muted dark:text-text-dark">
           Username
         </label>
         <input
@@ -24,12 +25,12 @@
           autocomplete="username"
           required
           placeholder="Enter your username"
-          class="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none placeholder:text-zinc-400 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/30 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+          class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none placeholder:text-text-translucent focus:border-brand focus:ring-2 focus:ring-brand/30 dark:border-border-dark dark:bg-surface-dark dark:text-text-dark"
         />
       </div>
 
       <div>
-        <label for="password" class="mb-1 block text-sm font-medium text-zinc-600 dark:text-zinc-300">
+        <label for="password" class="mb-1 block text-sm font-medium text-text-muted dark:text-text-dark">
           Password
         </label>
         <input
@@ -39,21 +40,21 @@
           autocomplete="current-password"
           required
           placeholder="Enter your password"
-          class="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none placeholder:text-zinc-400 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/30 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+          class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none placeholder:text-text-translucent focus:border-brand focus:ring-2 focus:ring-brand/30 dark:border-border-dark dark:bg-surface-dark dark:text-text-dark"
         />
       </div>
 
       <button
         type="submit"
-        class="btn-primary"
+        class="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80"
       >
         Log In
       </button>
     </form>
 
-    <p class="mt-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+    <p class="mt-6 text-center text-sm text-text-muted dark:text-text-dark">
       Don't have an account?
-      <a href="/register" class="font-medium text-purple-600 hover:underline dark:text-purple-400">Register</a>
+      <a href="/register" class="font-medium text-brand hover:underline dark:text-brand-light">Register</a>
     </p>
   </div>
 </div>

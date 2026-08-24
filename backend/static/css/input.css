@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* default font */
+  --default-font-family: "Inter";
+
+  /* Brand */
+  --color-brand: #9333ea;        /* purple-600 — primary buttons, links */
+  --color-brand-hover: #7e22ce;  /* purple-700 — hover states */
+  --color-brand-light: #a855f7;  /* purple-400 — dark mode hover text */
+
+  /* Surface (backgrounds/borders for cards, inputs) */
+  --color-surface: #ffffff;
+  --color-surface-dark: #18181b;      /* zinc-900 */
+  --color-border: #d4d4d8;            /* zinc-300 */
+  --color-border-dark: #3f3f46;       /* zinc-700 */
+
+  /* Text */
+  --color-text: #27272a;              /* zinc-800 */
+  --color-text-dark: #f4f4f5;         /* zinc-100 */
+  --color-text-translucent: #a1a1aa;       /* zinc-400 */
+  --color-text-muted: #52525b;        /* zinc-600 */
+
+  /* Feedback (you'll want these once flash messages/validation come up) */
+  --color-danger: #dc2626;
+  --color-success: #16a34a;
+}
+
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+@layer components {
+  #flash-container {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  }
+
+  .flash-toast {
+    background: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: fadeOut 0.5s ease-in 4s forwards;
+  }
+
+  @keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+  }
+}
