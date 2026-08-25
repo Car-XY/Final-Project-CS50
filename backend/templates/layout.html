@@ -5,6 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
+    <!-- Checks for dark mode before page is loaded, prevents FOUC-->
+    <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+    </script>
+
     <title>Anchor {% block title %}{% endblock %}</title>
 
     <!-- Load my css stylesheet --> 
@@ -33,7 +40,7 @@
         toggleDarkMode() {
           this.darkMode = !this.darkMode;
           localStorage.setItem('darkMode', this.darkMode);
-          document.body.parentNode.classList.toggle('dark', this.darkMode);
+          document.documentElement.classList.toggle('dark', this.darkMode);
         }
       }"
       class="flex min-h-dvh min-w-80 flex-col bg-surface text-text dark:bg-zinc-950 dark:text-text-dark"
