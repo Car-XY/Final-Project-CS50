@@ -8,7 +8,7 @@ Manage Habits
 <div class="col-span-12">
 
   <!-- Page Header Row -->
-  <div class="mb-6 flex items-center justify-between">
+  <div class="mb-6 flex flex-wrap items-center justify-between gap-6">
     <h1 class="text-2xl font-semibold tracking-tight text-text dark:text-text-dark">
       Manage Habits
     </h1>
@@ -18,8 +18,8 @@ Manage Habits
       <a
         href="/habits/edit"
         class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 active:opacity-80 dark:border-border-dark dark:text-zinc-200 dark:hover:bg-zinc-800"
-        Edit Habits
       >
+        Edit Habits
       </a>
       
       <a
@@ -39,10 +39,12 @@ Manage Habits
         {% for habit in habits %}
         <li class="flex items-center justify-between px-6 py-4">
           <div>
-            <p class="font-medium text-text dark:text-text-dark">{{ habit.name }}</p>
-            <p class="text-sm text-zinc-500 dark:text-text-translucent">{{ habit.frequency }}</p>
+            <p class="font-medium text-text dark:text-text-dark">{{ habit.habit }}</p>
+            <p class="text-sm text-zinc-500 dark:text-text-muted">{{ habit.description }}</p>
+            <p class="text-sm text-zinc-500 dark:text-text-translucent">Start date: {{ habit.start_date }}</p>
+            <p class="text-sm text-zinc-500 dark:text-text-translucent">End date: {{ habit.end_date }}</p>
           </div>
-          <span class="text-sm text-text-translucent dark:text-zinc-500">{{ habit.streak }} day streak</span>
+          <span class="text-sm text-text-translucent dark:text-zinc-500">{{ streak }} day streak</span>
         </li>
         {% endfor %}
       </ul>
@@ -50,13 +52,6 @@ Manage Habits
       <!-- Empty State -->
       <div class="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
         <p class="text-text-muted dark:text-zinc-300">You haven't added any habits yet.</p>
-    
-        <a
-          href="/habits/add"
-          class="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80"
-        >
-          + Add Your First Habit
-        </a>
       </div>
       <!-- END Empty State -->
     {% endif %}

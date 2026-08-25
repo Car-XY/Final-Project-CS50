@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, flash, redirect, render_template, request, session, g
+from flask import Flask, flash, redirect, render_template, request, session, g, url_for
 from flask_session import Session
 from flask_wtf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -60,8 +60,49 @@ def index():
 @app.route("/habits")
 @login_required
 def habits():
-    habits = ()
-    return render_template ("habits.html", habits=habits)
+    db = get_db()
+    habits = db.execute("SELECT habit, description, start_date, end_date FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
+
+    streak = "todo"
+    return render_template ("habits.html", habits=habits, streak=streak)
+
+@app.route("/habits/add", methods=["GET", "POST"])
+@login_required
+def addhabit():
+
+    if request.method == "POST":
+        habit = request.form.get("habit")
+        start = request.form.get("start_date")
+        end = request.form.get("end_date")
+
+        now = datetime.now()
+
+        curr_date = now.strftime("%Y-%m-%d")
+
+        if not habit:
+            return apology("must give a name for your habit")
+
+        if not start or not end:
+            return apology("must give a start and end date")
+
+        if start > end:
+            return apology("Start date cannot be after end date")
+
+        if curr_date > end:
+            return apology("End date cannot be before today")
+        
+        db = get_db()
+        try:
+            db.execute("INSERT INTO habits (user_id, habit, description, start_date, end_date) VALUES (?, ?, ?, ?, ?)", 
+                    (session["user_id"], habit, request.form.get("description"), start, end))
+        except sqlite3.IntegrityError:
+            return apology("Something went wrong saving this habit")
+        
+        db.commit()
+        return apology("Habit creation successful!", redirect_url=url_for("habits"), error="success")
+    else:
+        return render_template("habit_add.html")
+
 
 
 @app.route("/login", methods=["GET", "POST"])

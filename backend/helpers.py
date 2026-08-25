@@ -4,12 +4,14 @@ from flask import flash, redirect, request, url_for, session
 from functools import wraps
 
 
-def apology(message, code=400):
-    """Flash an error message and redirect the user back to where they came from"""
+def apology(message, redirect_url=None, error="error"):
+    """Flash an error message and redirect the user"""
 
-    flash(message, "error")
-    # url_for checks for the route function name, in which case the homepage is index
-    return redirect(request.referrer or url_for("index"))
+    # either pass in "success" for a green box or nothin for a red box
+    flash(message, error)
+    
+    # either a url is passed in or it relies on fall backs: url_for checks for the route function name
+    return redirect(redirect_url or request.referrer or url_for("index"))
 
 
 def login_required(f):
