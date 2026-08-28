@@ -37,12 +37,13 @@ Manage Habits
     {% if habits %}
       <ul class="divide-y divide-zinc-200 dark:divide-zinc-800">
         {% for habit in habits %}
-        <li class="flex items-center justify-between px-6 py-4">
+        <li class="flex items-center justify-between px-6 py-4"
+          style="background-color: {{ habit.colour }}40;">
           <div>
             <p class="font-medium text-text dark:text-text-dark">{{ habit.habit }}</p>
             <p class="text-sm text-zinc-500 dark:text-text-muted">{{ habit.description }}</p>
-            <p class="text-sm text-zinc-500 dark:text-text-translucent">Start date: {{ habit.start_date }}</p>
-            <p class="text-sm text-zinc-500 dark:text-text-translucent">End date: {{ habit.end_date }}</p>
+            <p class="text-sm text-zinc-500 dark:text-text-translucent">Start: {{ habit.start_date }}</p>
+            <p class="text-sm text-zinc-500 dark:text-text-translucent">End: {{ habit.end_date }}</p>
           </div>
           <span class="text-sm text-text-translucent dark:text-zinc-500">{{ streak }} day streak</span>
         </li>

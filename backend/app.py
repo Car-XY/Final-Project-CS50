@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import re
 
 from flask import Flask, flash, redirect, render_template, request, session, g, url_for
 from flask_session import Session
@@ -11,7 +12,7 @@ from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "Anchor-Cary-Hehehaw"  # move to env var later
+app.config["SECRET_KEY"] = "Anchor-Cary-Hehehaw"  # move to env var later so it isn't leaked to github repo (also change it)
 
 csrf = CSRFProtect(app)
 
@@ -61,7 +62,7 @@ def index():
 @login_required
 def habits():
     db = get_db()
-    habits = db.execute("SELECT habit, description, start_date, end_date FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
+    habits = db.execute("SELECT habit, description, start_date, end_date, colour FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
 
     streak = "todo"
     return render_template ("habits.html", habits=habits, streak=streak)
@@ -74,6 +75,12 @@ def addhabit():
         habit = request.form.get("habit")
         start = request.form.get("start_date")
         end = request.form.get("end_date")
+        colour = request.form.get("colour")
+
+        # just in case no colour is submitted
+        if not colour or not re.fullmatch(r"#[0-9a-fA-F]{6}", colour):
+            colour = "#ffffff"  # fallback to default
+
 
         now = datetime.now()
 
@@ -82,8 +89,8 @@ def addhabit():
         if not habit:
             return apology("must give a name for your habit")
 
-        if not start or not end:
-            return apology("must give a start and end date")
+        if not start:
+            return apology("must give a start date")
 
         if start > end:
             return apology("Start date cannot be after end date")
@@ -93,8 +100,8 @@ def addhabit():
         
         db = get_db()
         try:
-            db.execute("INSERT INTO habits (user_id, habit, description, start_date, end_date) VALUES (?, ?, ?, ?, ?)", 
-                    (session["user_id"], habit, request.form.get("description"), start, end))
+            db.execute("INSERT INTO habits (user_id, habit, description, start_date, end_date, colour) VALUES (?, ?, ?, ?, ?, ?)", 
+                    (session["user_id"], habit, request.form.get("description"), start, end, colour))
         except sqlite3.IntegrityError:
             return apology("Something went wrong saving this habit")
         
@@ -102,6 +109,67 @@ def addhabit():
         return apology("Habit creation successful!", redirect_url=url_for("habits"), error="success")
     else:
         return render_template("habit_add.html")
+
+
+@app.route("/habits/edit", methods=["GET", "POST"])
+@login_required
+def edithabit():
+    if request.method == "POST":
+        db = get_db()
+        rows = db.execute("SELECT id FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
+
+        # using list comprehension. Easier way to create new list from existing list
+        id_list = [row["id"] for row in rows]
+
+        for id in id_list:
+            # checking for deletion of habit first
+            if request.form.get(f"{id}_delete"):
+                db.execute("DELETE FROM habits WHERE id = ?", (id,))
+                db.commit()
+                return apology("Habit Deleted!", error="success")
+            
+            habit = request.form.get(f"{id}_habit")
+            start = request.form.get(f"{id}_start_date")
+            end = request.form.get(f"{id}_end_date")
+            colour = request.form.get(f"{id}_colour")
+
+            # just in case no colour is submitted
+            if not colour or not re.fullmatch(r"#[0-9a-fA-F]{6}", colour):
+                colour = "#ffffff"  # fallback to default
+
+            now = datetime.now()
+            curr_date = now.strftime("%Y-%m-%d")
+
+            if not habit:
+                return apology(f"habit {habit}: must give a name for your habit")
+
+            if not start:
+                return apology(f"habit {habit}: must give a start date")
+
+            if start > end:
+                return apology(f"habit {habit}: Start date cannot be after end date")
+
+            if curr_date > end:
+                return apology(f"habit {habit}: End date cannot be before today")
+
+            try:
+                db.execute("""UPDATE habits SET 
+                habit = ?, 
+                description = ?, 
+                start_date = ?, 
+                end_date = ?, 
+                colour = ?
+                WHERE id = ?"""
+                        , (habit, request.form.get(f"{id}_description"), start, end, colour, id))
+            except sqlite3.IntegrityError:
+                return apology(f"habit {habit}: something went wrong saving this habit")
+            
+            db.commit()
+        return apology("Habits edited!", redirect_url=url_for("habits"), error="success")
+    else:
+        db = get_db()
+        habits = db.execute("SELECT id, habit, description, start_date, end_date, colour FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
+        return render_template ("habit_edit.html", habits=habits)
 
 
 

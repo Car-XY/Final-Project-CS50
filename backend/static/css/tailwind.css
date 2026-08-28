@@ -323,9 +323,6 @@
   .inline-flex {
     display: inline-flex;
   }
-  .table {
-    display: table;
-  }
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
@@ -353,8 +350,14 @@
     width: calc(var(--spacing) * 96);
     height: calc(var(--spacing) * 96);
   }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
   .min-h-dvh {
     min-height: 100dvh;
+  }
+  .w-16 {
+    width: calc(var(--spacing) * 16);
   }
   .w-full {
     width: 100%;
@@ -383,9 +386,6 @@
   .flex-none {
     flex: none;
   }
-  .border-collapse {
-    border-collapse: collapse;
-  }
   .scale-0 {
     --tw-scale-x: 0%;
     --tw-scale-y: 0%;
@@ -400,9 +400,6 @@
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .resize {
-    resize: both;
   }
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -460,6 +457,9 @@
   .scroll-smooth {
     scroll-behavior: smooth;
   }
+  .rounded {
+    border-radius: 0.25rem;
+  }
   .rounded-2xl {
     border-radius: var(--radius-2xl);
   }
@@ -488,9 +488,6 @@
   .border-zinc-200 {
     border-color: var(--color-zinc-200);
   }
-  .bg-blue-100 {
-    background-color: var(--color-blue-100);
-  }
   .bg-blue-100\/50 {
     background-color: color-mix(in srgb, oklch(93.2% 0.032 255.585) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -511,9 +508,6 @@
   }
   .bg-pink-300 {
     background-color: var(--color-pink-300);
-  }
-  .bg-purple-100 {
-    background-color: var(--color-purple-100);
   }
   .bg-purple-100\/50 {
     background-color: color-mix(in srgb, oklch(94.6% 0.033 307.174) 50%, transparent);
@@ -663,9 +657,6 @@
   .text-zinc-950 {
     color: var(--color-zinc-950);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .decoration-brand {
     text-decoration-color: var(--color-brand);
   }
@@ -692,10 +683,6 @@
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
   .blur {
     --tw-blur: blur(8px);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
@@ -713,10 +700,6 @@
   }
   .backdrop-blur-md {
     --tw-backdrop-blur: blur(var(--blur-md));
-    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-  }
-  .backdrop-filter {
     -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
     backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
   }
@@ -776,21 +759,8 @@
     .hover\:bg-brand-hover:hover {
       background-color: var(--color-brand-hover);
     }
-    .hover\:bg-danger\/10:hover {
-      background-color: color-mix(in srgb, #f87171cc 10%, transparent);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .hover\:bg-danger\/10:hover {
-        background-color: color-mix(in oklab, var(--color-danger) 10%, transparent);
-      }
-    }
-    .hover\:bg-danger\/50:hover {
-      background-color: color-mix(in srgb, #f87171cc 50%, transparent);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .hover\:bg-danger\/50:hover {
-        background-color: color-mix(in oklab, var(--color-danger) 50%, transparent);
-      }
+    .hover\:bg-danger:hover {
+      background-color: var(--color-danger);
     }
     .hover\:bg-danger\/60:hover {
       background-color: color-mix(in srgb, #f87171cc 60%, transparent);
@@ -1036,21 +1006,8 @@
     color: var(--color-zinc-400);
   }
   @media (hover: hover) {
-    .dark\:hover\:bg-danger\/0:where(.dark, .dark *):hover {
-      background-color: color-mix(in srgb, #f87171cc 0%, transparent);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-danger\/0:where(.dark, .dark *):hover {
-        background-color: color-mix(in oklab, var(--color-danger) 0%, transparent);
-      }
-    }
-    .dark\:hover\:bg-danger\/20:where(.dark, .dark *):hover {
-      background-color: color-mix(in srgb, #f87171cc 20%, transparent);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-danger\/20:where(.dark, .dark *):hover {
-        background-color: color-mix(in oklab, var(--color-danger) 20%, transparent);
-      }
+    .dark\:hover\:bg-danger:where(.dark, .dark *):hover {
+      background-color: var(--color-danger);
     }
     .dark\:hover\:bg-danger\/70:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, #f87171cc 70%, transparent);
@@ -1058,14 +1015,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       .dark\:hover\:bg-danger\/70:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-danger) 70%, transparent);
-      }
-    }
-    .dark\:hover\:bg-danger\/700:where(.dark, .dark *):hover {
-      background-color: color-mix(in srgb, #f87171cc 700%, transparent);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-danger\/700:where(.dark, .dark *):hover {
-        background-color: color-mix(in oklab, var(--color-danger) 700%, transparent);
       }
     }
     .dark\:hover\:bg-zinc-800:where(.dark, .dark *):hover {
@@ -1268,11 +1217,6 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -1401,7 +1345,6 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
