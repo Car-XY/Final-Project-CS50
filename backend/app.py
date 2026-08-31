@@ -8,7 +8,7 @@ from flask_wtf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from helpers import apology, login_required
+from helpers import apology, login_required, get_db, get_streak
 
 # Configure application
 app = Flask(__name__)
@@ -16,21 +16,12 @@ app.config["SECRET_KEY"] = "Anchor-Cary-Hehehaw"  # move to env var later so it 
 
 csrf = CSRFProtect(app)
 
-# makes sure my database is always the same one no matter where I launch app.py from
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE = os.path.join(BASE_DIR, "goal_tracker.db")
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configure my database
-def get_db():
-    if "db" not in g:
-        g.db = sqlite3.connect(DATABASE)
-        g.db.row_factory = sqlite3.Row
-    return g.db
 
 @app.teardown_appcontext
 def close_db(exception):
@@ -58,14 +49,38 @@ def index():
     return render_template("index.html", greeting=True)
 
 
-@app.route("/habits")
+@app.route("/habits", methods=["GET", "POST"])
 @login_required
 def habits():
+    # checking for completion button for streaking
     db = get_db()
-    habits = db.execute("SELECT habit, description, start_date, end_date, colour FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
 
-    streak = "todo"
-    return render_template ("habits.html", habits=habits, streak=streak)
+    now = datetime.now()
+    curr_date = now.strftime("%Y-%m-%d")
+
+    if request.method == "POST":
+        if request.form.get("completion_btt"):
+            db.execute("INSERT INTO habit_logs (habit_id, completed_date) VALUES (?, ?)", 
+                    (request.form.get("completion_btt"), curr_date))
+            db.commit()
+            return apology("Marked as done", error="success")
+        else:
+            return render_template("habits.html")
+    else:
+        habits = db.execute("SELECT id, habit, description, start_date, end_date, colour FROM habits WHERE user_id = ?", (session["user_id"],)).fetchall()
+
+        id_list = [row["id"] for row in habits]
+        # my streak table is created w/ unique(habit_id, completed_date) to ensure no two duplicates of habit and date can exist)
+        streaks = {}
+        completed_date = {}
+
+        for habit_id in id_list:
+            streaks[habit_id] = get_streak(habit_id)
+            row = db.execute("SELECT completed_date FROM habit_logs WHERE habit_id = ? ORDER BY completed_date DESC LIMIT 1", (habit_id,)).fetchone()
+            # if __ else None ensures that data is stored in my dictionary even when I don't have a mnost recent completed date and sqlite3 returns NoneType
+            completed_date[habit_id] = row["completed_date"] if row else None
+        return render_template ("habits.html", habits=habits, streak=streaks, completed_date=completed_date, today=curr_date)
+
 
 @app.route("/habits/add", methods=["GET", "POST"])
 @login_required
@@ -225,6 +240,25 @@ def logout():
     return render_template("login.html", greeting=True)
 
 
+@app.route("/reflect", methods=["GET", "POST"])
+def reflect():
+    """Renders reflection page"""
+    db = get_db()
+
+    if request.method == "POST":
+        try:
+            db.execute("INSERT INTO reflections (user_id, title, date, content) VALUES (?, ?, ?, ?)", 
+                       (session["user_id"], request.form.get("title"), request.form.get("date"), request.form.get("content")))
+        except sqlite3.IntegrityError:
+            return apology("something went wrong saving this reflection")
+
+        db.commit()
+        return apology("Reflection save successful!", error="success")
+    else:
+        reflections = db.execute("SELECT * FROM reflections WHERE id = ?", (session["user_id"],)).fetchall()
+        return render_template("reflection.html", reflections=reflections)
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -249,10 +283,10 @@ def register():
             db = get_db()
             db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
                        (request.form.get("username"), hash))
-            db.commit() # as I am not using cs50 training wheels anymore, anytime I need to commit something to server files I need to do commit()
         except sqlite3.IntegrityError:  # good practice to define the error so that it is easier to debug
             return apology("username already taken")
-
+        
+        db.commit() # as I am not using cs50 training wheels anymore, anytime I need to commit something to server files I need to do commit()
         return redirect("/")
     else:
         # renders my register template if user did not click "register" button
