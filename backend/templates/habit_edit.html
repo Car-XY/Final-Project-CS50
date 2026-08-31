@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Habits
+{% endblock %}
+
+
+{% block main %}
+<div class="col-span-12">
+
+  <!-- Page Header Row -->
+  <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <h1 class="text-2xl font-semibold tracking-tight text-text dark:text-text-dark">
+      Edit Habits
+    </h1>
+
+    <a
+      href="/habits"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text transition hover:bg-danger/60 active:opacity-80 dark:border-border-dark dark:text-text-dark dark:hover:bg-danger/70"
+    >
+      Cancel
+    </a>
+  </div>
+  <!-- END Page Header Row -->
+
+  <!-- Habit List -->
+    {% if habits %}
+      <form action="/habits/edit" method="post" class="flex flex-col gap-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {% for habit in habits %}
+            <div class="flex flex-col gap-4 rounded-xl border border-border bg-surface p-6 dark:border-border-dark dark:bg-surface-dark">
+
+                <div>
+                    <label for="habit" class="mb-1 block text-lg font-semibold text-text-muted dark:text-text-dark">
+                    <strong>Name</strong>
+                    </label>
+                    <input
+                    id="habit-{{ habit.id }}"
+                    name="{{ habit.id }}_habit"
+                    type="text"
+                    value="{{ habit.habit }}"
+                    class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none placeholder:text-text-translucent focus:border-brand focus:ring-2 focus:ring-brand/30 dark:border-border-dark dark:bg-surface-dark dark:text-text-dark"
+                    />
+                </div>
+
+                <div>
+                    <label for="description" class="mb-1 block text-sm font-medium text-text-muted dark:text-text-dark">
+                    Description
+                    </label>
+                    <input
+                    id="description-{{ habit.id }}"
+                    name="{{ habit.id }}_description"
+                    type="text"
+                    value="{{ habit.description }}"
+                    class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none placeholder:text-text-translucent focus:border-brand focus:ring-2 focus:ring-brand/30 dark:border-border-dark dark:bg-surface-dark dark:text-text-dark"
+                    />
+                </div>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                    <label for="start_date" class="mb-1 block text-sm font-medium text-text-muted dark:text-text-dark">
+                        Start Date
+                    </label>
+                    <input
+                        id="start_date-{{ habit.id }}"
+                        name="{{ habit.id }}_start_date"
+                        type="date"
+                        value="{{ habit.start_date }}"
+                        class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-brand focus:ring-2 focus:ring-brand/30 dark:border-border-dark dark:bg-surface-dark dark:text-text-dark"
+                    />
+                    </div>
+
+                    <div>
+                    <label for="end_date" class="mb-1 block text-sm font-medium text-text-muted dark:text-text-dark">
+                        End Date
+                    </label>
+                    <input
+                        id="end_date-{{ habit.id }}"
+                        name="{{ habit.id }}_end_date"
+                        type="date"
+                        value="{{ habit.end_date }}"
+                        class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text outline-none focus:border-brand focus:ring-2 focus:ring-brand/30 dark:border-border-dark dark:bg-surface-dark dark:text-text-dark"
+                    />
+                    </div>
+                </div>
+                <div>
+                    <label for="color" class="text-text dark:text-text-dark">Habit Colour</label>
+                    <input 
+                    type="color" 
+                    id="colour-{{ habit.id }}" 
+                    name="{{ habit.id }}_colour" 
+                    value="{{ habit.colour }}"
+                    class="h-10 w-16 rounded border border-border dark:border-border-dark">
+                </div>
+                <!--Deletion button, confirmation done through the help of onclick!-->
+                <button
+                    type="submit"
+                    name="{{ habit.id }}_delete"
+                    value="True"
+                    onclick="return confirm('Delete this habit? This cannot be undone.')"
+                    class="text-center rounded-lg border border-border px-4 py-2 text-sm font-medium text-text transition hover:bg-danger active:opacity-80 dark:border-border-dark dark:text-text-dark dark:hover:bg-danger"
+                >
+                    Delete
+                </button>
+            </div>
+        {% endfor %}
+        <button
+            type="submit"
+            class="mt-2 w-full rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80 sm:w-auto"
+        >
+            Submit
+        </button>
+      </form>
+    {% else %}
+      <!-- Empty State -->
+      <div class="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
+        <p class="text-text-muted dark:text-zinc-300">You haven't added any habits yet.</p>
+      </div>
+      <!-- END Empty State -->
+    {% endif %}
+  <!-- END Habit List -->
+</div>
+{% endblock %}

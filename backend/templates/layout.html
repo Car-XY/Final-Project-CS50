@@ -241,7 +241,7 @@
         {% if messages %}
             <div id="flash-container">
             {% for category, message in messages %}
-                <div class="flash-toast flash-toast-{{ category }}">{{ message }}</div>
+                <div class="flash-toast flash-{{ category }}">{{ message }}</div>
             {% endfor %}
             </div>
         {% endif %}
