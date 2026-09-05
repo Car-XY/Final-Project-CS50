@@ -6,12 +6,17 @@ Settings
 
 {% block main %}
 
-<form action="/logout" class="flex flex-col gap-4">
+<div class="col-span-12 flex flex-1 items-center justify-center">
+  <form action="/logout" class="flex flex-col items-center gap-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
     <button
-    type="submit"
-    class="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover active:opacity-80">
-        Log out
+      type="submit"
+      class="rounded-xl bg-brand px-10 py-5 text-lg font-semibold text-white transition hover:bg-brand-hover active:opacity-80"
+    >
+      Log Out
     </button>
-</form>
+  </form>
+</div>
 
 {% endblock %}

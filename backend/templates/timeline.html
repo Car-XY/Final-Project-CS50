@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Timeline
+{% endblock %}
+
+{% block main %}
+<div class="md:col-span-12">
+    <h1 class="text-2xl font-semibold text-text dark:text-text-dark">Timeline</h1>
+
+    {% if not habits and not reflections %}
+        <p class="mt-6 text-sm text-text-muted dark:text-text-muted-dark">
+            Add some habits and reflections to get started!
+        </p>
+    {% else %}
+        <p class="text-sm text-text-muted dark:text-text-muted-dark">*If the circle is filled, you completed the habit that day.</p>
+        <p class="text-sm text-text-muted dark:text-text-muted-dark">*Hover over reflection circles to see their title in a popup.</p>
+        <br>
+        <div class="overflow-x-auto border border-border dark:border-border-dark rounded-lg">
+            <div class="grid"
+                style="grid-template-columns: {{ label_width }}px repeat({{ date_headers|length }}, {{ cell_width }}px);
+                        grid-auto-rows: 40px;">
+
+                <!-- Row 0: corner cell + date headers -->
+                <div class="sticky left-0 z-10 bg-surface dark:bg-surface-dark border-b border-border dark:border-border-dark"></div>
+                {% for dh in date_headers %}
+                <div class="flex flex-col items-center justify-center text-xs text-text-muted border-b border-l border-border dark:border-border-dark">
+                    {% if dh.month_label %}<span class="text-[10px] text-brand">{{ dh.month_label }}</span>{% endif %}
+                    <span>{{ dh.day }}</span>
+                </div>
+                {% endfor %}
+
+                <!-- One row per habit: label + one cell per day -->
+                {% for h in habits %}
+                <div class="sticky left-0 z-10 bg-surface dark:bg-surface-dark flex items-center px-2 text-xs font-medium truncate border-b border-border dark:border-border-dark">
+                    {{ h.habit }}
+                </div>
+                {% for cell in h.cells %}
+                    <div class="relative flex items-center justify-center border-b border-l border-border dark:border-border-dark"
+                        style="{% if cell.active %}background-color: {{ h.colour }}33;{% endif %}">
+                    {% if cell.active %}
+                        <div class="w-3 h-3 rounded-full {% if not cell.completed %}border-2 border-current opacity-40{% endif %}"
+                            style="{% if cell.completed %}background-color: {{ h.colour }};{% endif %}">
+                        </div>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+                {% endfor %}
+
+                <!-- Final row: reflections -->
+                {% if reflections %}
+                    <div class="sticky left-0 z-10 bg-surface dark:bg-surface-dark flex items-center px-2 text-xs font-medium">
+                    Reflections
+                    </div>
+                    {% for cell in reflection_row %}
+                    <div class="flex items-center justify-center border-l border-border dark:border-border-dark" title="{{ cell.title }}">
+                        {% if cell.has_reflection %}
+                        <div class="w-3 h-3 rounded-full bg-brand"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

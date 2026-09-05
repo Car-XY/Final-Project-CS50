@@ -5,6 +5,7 @@ import os
 from flask import flash, redirect, request, url_for, session, g
 from functools import wraps
 from datetime import date, timedelta
+from collections import defaultdict
 
 # makes sure my database is always the same one no matter where I launch app.py from
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -60,4 +61,3 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
-

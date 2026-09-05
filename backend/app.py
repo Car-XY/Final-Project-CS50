@@ -6,7 +6,7 @@ from flask import Flask, flash, redirect, render_template, request, session, g, 
 from flask_session import Session
 from flask_wtf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 from helpers import apology, login_required, get_db, get_streak
 
@@ -255,7 +255,7 @@ def reflect():
         db.commit()
         return apology("Reflection save successful!", error="success")
     else:
-        reflections = db.execute("SELECT * FROM reflections WHERE id = ?", (session["user_id"],)).fetchall()
+        reflections = db.execute("SELECT * FROM reflections WHERE user_id = ? ORDER BY date DESC", (session["user_id"],)).fetchall()
         return render_template("reflection.html", reflections=reflections)
 
 
@@ -297,6 +297,93 @@ def register():
 @login_required
 def settings():
     return render_template("settings.html")
+
+
+@app.route("/timeline")
+@login_required
+def timeline():
+    CELL_WIDTH = 32   # px per day column
+    LABEL_WIDTH = 140 # px for the sticky habit-name column
+    db = get_db()
+    user_id = session["user_id"]
+
+    habits = [dict(r) for r in db.execute(
+        "SELECT id, habit, start_date, end_date, colour FROM habits WHERE user_id = ?",
+        (user_id,)
+    ).fetchall()]
+
+    logs = [dict(r) for r in db.execute(
+        """SELECT habit_logs.habit_id, habit_logs.completed_date
+           FROM habit_logs
+           JOIN habits ON habit_logs.habit_id = habits.id
+           WHERE habits.user_id = ?""",
+        (user_id,)
+    ).fetchall()]
+
+    reflections = [dict(r) for r in db.execute(
+        "SELECT date, title, content FROM reflections WHERE user_id = ?",
+        (user_id,)
+    ).fetchall()]
+
+    if not habits:
+        # Nothing to plot yet — avoid crashing on min()/max() of an empty list
+        return render_template("timeline.html", habits=[], date_headers=[], reflection_row=[],
+                                cell_width=CELL_WIDTH, label_width=LABEL_WIDTH)
+
+    # Find the earliest and latest date across ALL sources, so the grid covers everything
+    all_dates = []
+    for h in habits:
+        all_dates += [date.fromisoformat(h["start_date"]), date.fromisoformat(h["end_date"])]
+    for l in logs:
+        all_dates.append(date.fromisoformat(l["completed_date"]))
+    for r in reflections:
+        all_dates.append(date.fromisoformat(r["date"]))
+
+    min_date, max_date = min(all_dates), max(all_dates)
+
+    # Build one entry per calendar day, inclusive of both ends
+    dates = []
+    cursor = min_date
+    while cursor <= max_date:
+        dates.append(cursor)
+        cursor += timedelta(days=1)
+
+    print("dates found:", len(dates), "min:", min_date, "max:", max_date)
+
+    # A set of (habit_id, date) pairs, for O(1) "was this completed?" lookups per cell
+    completed_lookup = {(l["habit_id"], l["completed_date"]) for l in logs}
+    reflection_lookup = {r["date"]: r for r in reflections}
+
+    date_headers = [{
+        "day": d.day,
+        # Only print a month label on the 1st of the month, or the very first column —
+        # avoids repeating "Jan" under every single day
+        "month_label": d.strftime("%b") if d.day == 1 or d == min_date else None,
+    } for d in dates]
+
+    for h in habits:
+        start = date.fromisoformat(h["start_date"])
+        end = date.fromisoformat(h["end_date"])
+        cells = []
+        for d in dates:
+            active = start <= d <= end
+            completed = active and (h["id"], d.isoformat()) in completed_lookup
+            cells.append({"active": active, "completed": completed})
+        h["cells"] = cells  # one cell dict per day, aligned to `dates`
+
+    reflection_row = [{
+        "has_reflection": d.isoformat() in reflection_lookup,
+        "title": reflection_lookup.get(d.isoformat(), {}).get("title", ""),
+    } for d in dates]
+
+    return render_template(
+        "timeline.html",
+        habits=habits,
+        date_headers=date_headers,
+        reflection_row=reflection_row,
+        cell_width=CELL_WIDTH,
+        label_width=LABEL_WIDTH,
+    )
     
 
 # remove this when shipping
