@@ -326,7 +326,7 @@ def timeline():
     ).fetchall()]
 
     if not habits:
-        # Nothing to plot yet — avoid crashing on min()/max() of an empty list
+        # Nothing to plot yet, avoid crashing on min()/max() of an empty list
         return render_template("timeline.html", habits=[], date_headers=[], reflection_row=[],
                                 cell_width=CELL_WIDTH, label_width=LABEL_WIDTH)
 
@@ -379,6 +379,7 @@ def timeline():
     return render_template(
         "timeline.html",
         habits=habits,
+        reflections=reflections,
         date_headers=date_headers,
         reflection_row=reflection_row,
         cell_width=CELL_WIDTH,
