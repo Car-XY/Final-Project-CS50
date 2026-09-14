@@ -31,6 +31,9 @@ Some future features to be added include:
    The coolest feature by far, the goal timeline features a calendar table that automatically resizes to the range of your habit and reflections. Habits also show their completion logs through empty (meaning not completed on that day) and full (marked as completed) circles
    - New rows are created for each habit to ensure no overlap or confusion occurs
 
+<br>
+<br>
+
 #### The Code Behind it All
 
 **1. Architecture | Electron + Flask**
@@ -90,6 +93,8 @@ Firstly, for passwords I use a classic Werkzeug password hash (similar to what t
 Secondly, flask session writers a signed cookie that identifies the user. This cookie is cryptographically signed using SECRET_KEY (an environment variable that I created myself) so that it can't be tampered with client-side.
 
 Lastly, I also decided to implement CSRF protection so that every single form includes a hidden-from-view CSRF token. This specifically prevents Cross-Site Request Forgery where a malicious site tricks a useres browser into submitting a request to Anchor.
+
+<br>
 
 **3. Frontend dev**
 
