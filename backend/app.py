@@ -12,7 +12,7 @@ from helpers import apology, login_required, get_db, get_streak
 
 # Configure application
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "Anchor-Cary-Hehehaw"  # move to env var later so it isn't leaked to github repo (also change it)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "local-dev-key-only")
 
 csrf = CSRFProtect(app)
 
